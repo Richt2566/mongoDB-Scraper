@@ -61,9 +61,12 @@ app.get("/", function(req, res) {
 });
 
 app.get("/saved", function(req, res) {
-
-  // i want the same site front page to show
-  res.render("saved");
+  Article.find({"saved": true}).populate("note").exec(function(error, articles) {
+    var hbsObject = {
+      article: articles
+    };
+    res.render("saved", hbsObject);
+  });
 });
 
 // Retrieve data from the db
@@ -98,6 +101,23 @@ app.get("/articles/:id", function(req, res) {
       res.json(doc);
     }
   });
+});
+
+
+app.post("/articles/save/:id", function(req, res) {
+      // Use the article id to find and update its saved boolean
+      Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
+      // Execute the above query
+      .exec(function(err, doc) {
+        // Log any errors
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // Or send the document to the browser
+          res.send(doc);
+        }
+      });
 });
 
 // Create a new note or replace an existing note
