@@ -1,4 +1,4 @@
-# Chicago Live
+# Mongo News
 
 This repository contains a webpage that scrapes articles from The Wall Street Journal. It was built in order to demonstarate the working componenets of npm package Cheerio as well as the simplicity of MongoDB with Mongoose.
 
